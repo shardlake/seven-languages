@@ -1,0 +1,8 @@
+a = rand(10)
+b = gets.to_i
+while a != b
+puts 'higher' if a > b
+puts 'lower' if a < b
+b = gets.to_i
+end
+puts 'equal'

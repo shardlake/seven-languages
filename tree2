@@ -1,0 +1,40 @@
+class Tree
+  attr_accessor :children, :node_name
+
+  def initialize(tree={})
+   
+    @children = []
+    if !tree.values[0].empty? 
+      tree.values[0].each do |key, value| 
+         hash={}
+         hash[key]=value
+         @children.push (Tree.new(hash))
+      end
+      # @children.push (Tree.new(tree.values[0]))
+    end
+    
+    @node_name = tree.keys[0]
+
+    #@children = tree.values[0].each {|node| Tree.new(node)} 
+  end
+
+  def visit_all(&block)
+    visit &block
+    children.each {|c| c.visit_all &block}
+  end
+
+  def visit(&block)
+    block.call self
+  end
+
+end
+
+ruby_tree = Tree.new({'grandpa' => {'dad' => {'child' => {}}, 'uncle' => {'child2' => {}}}})
+
+puts "Visiting a Node"
+ruby_tree.visit {|node| puts node.node_name}
+puts
+
+puts "Visiting entire tree"
+ruby_tree.visit_all {|node| puts node.node_name}
+
